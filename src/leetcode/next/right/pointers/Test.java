@@ -1,0 +1,66 @@
+package leetcode.next.right.pointers;
+
+public class Test
+{
+
+	private static final int NULL = Integer.MIN_VALUE;
+
+	public static TreeLinkNode build(int[] array, int i)
+	{
+		if (i >= array.length)
+			return null; // nothing to build
+
+		if (array[i] == NULL)
+		{
+			return null;
+		}
+
+		TreeLinkNode node = new TreeLinkNode(array[i]); // new node for array[i]
+
+		node.left = build(array, 2 * i + 1); // build left sub-tree
+		node.right = build(array, 2 * i + 2); // build right sub-tree
+
+		return node;
+	}
+
+	private static void oneCase(int[] treeValues)
+	{
+		System.out.println("#########################");
+		Solution s = new Solution();
+
+		TreeLinkNode root = build(treeValues, 0);
+		s.connect(root);
+		dumpNextRightPoint(root);
+		System.out.println("#########################\n\n");
+	}
+
+	private static void dumpNextRightPoint(TreeLinkNode root)
+	{
+		TreeLinkNode currentLeftMost = root;
+		
+		while (currentLeftMost != null)
+		{
+			TreeLinkNode p = currentLeftMost;
+			while (p != null)
+			{
+				System.out.print(p.val + "    ");
+				p = p.next;
+			}
+			
+			System.out.println("");
+			currentLeftMost = currentLeftMost.left;
+		}
+	}
+	
+	public static void main(String args[])
+	{
+		oneCase(new int[]
+		{ 1, 2, 3 });
+		
+		oneCase(new int[]
+		{ 1, 2, 3, 4, 5, 6, 7 });
+		
+		oneCase(new int[]{ 1 });
+		oneCase(new int[]{ });
+	}
+}
